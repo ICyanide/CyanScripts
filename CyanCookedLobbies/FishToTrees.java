@@ -8,8 +8,8 @@ public class FishToTrees extends Node {
 
 	@Override
 	public boolean activate() {
-		return (Inventory.getCount(377) + Inventory.getCount(379) == 24 
-				&& Inventory.getCount(379) < 24)
+		return (Inventory.getCount(377) + Inventory.getCount(379) == 26 
+				&& Inventory.getCount(379) < 26)
 				&& !Areas.FishingArea.contains(Players.getLocal().getLocation())
 				&& !Areas.TreeArea.contains(Players.getLocal().getLocation())
 				&& !Areas.NoteGuyArea.contains(Players.getLocal().getLocation());
