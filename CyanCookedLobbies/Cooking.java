@@ -4,7 +4,6 @@ import org.powerbot.game.api.methods.Widgets;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.tab.Inventory;
-import org.powerbot.game.api.util.Random;
 import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.node.SceneObject;
 import org.powerbot.game.api.wrappers.widget.WidgetChild;
@@ -12,15 +11,13 @@ import org.powerbot.game.api.wrappers.widget.WidgetChild;
 
 public class Cooking extends Node {
 
-	
-	int fireSpot = Random.nextInt(0, 7);
 	WidgetChild cookButton = Widgets.get(1370).getChild(38);
 	SceneObject tree = SceneEntities.getNearest(1276);
 	
 	
 	@Override
 	public boolean activate() {
-		return Inventory.getCount(377) + Inventory.getCount(381) + Inventory.getCount(379) == 24
+		return Inventory.getCount(377) + Inventory.getCount(381) + Inventory.getCount(379) == 26
 				&& Areas.TreeArea.contains(Players.getLocal().getLocation())
 				&& !Areas.FishingArea.contains(Players.getLocal().getLocation());
 	}
