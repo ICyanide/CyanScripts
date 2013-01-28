@@ -4,6 +4,7 @@ import org.powerbot.game.api.methods.Widgets;
 import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
+import org.powerbot.game.api.methods.widget.Camera;
 import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 import org.powerbot.game.api.wrappers.node.Item;
@@ -16,7 +17,7 @@ public class Fishing extends Node {
 	
 	@Override
 	public boolean activate() {
-		return (Inventory.getCount(377) + Inventory.getCount(379)) <= 24
+		return (Inventory.getCount(377) + Inventory.getCount(379)) <= 26
 				&& Players.getLocal().getAnimation() != 619
 				&& Areas.FishingArea.contains(Players.getLocal().getLocation());
 	}
@@ -33,10 +34,12 @@ public class Fishing extends Node {
 			}
 		}
 		
-		if(((Inventory.getCount(377) + Inventory.getCount(379)) < 24)) {
+		Camera.turnTo(NPCs.getNearest(324));
+		
+		if(((Inventory.getCount(377) + Inventory.getCount(379)) < 26)) {
 			NPC lobbySpot = NPCs.getNearest(Variables.fishingSpot);
 			
-			if(lobbySpot != null && lobbySpot.isOnScreen() && Inventory.getCount(377) + Inventory.getCount(379) < 24) {
+			if(lobbySpot != null && lobbySpot.isOnScreen() && Inventory.getCount(377) + Inventory.getCount(379) < 26) {
 				lobbySpot.interact("Cage");
 				sleep(200, 300);
 				
@@ -48,7 +51,7 @@ public class Fishing extends Node {
 			}
 			sleep(400, 500);
 			
-			while(Inventory.getCount(377) + Inventory.getCount(379) != 24) {
+			while(Inventory.getCount(377) + Inventory.getCount(379) != 26) {
 				if(Players.getLocal().getAnimation() == -1) {
 					break;
 				}
@@ -58,27 +61,8 @@ public class Fishing extends Node {
 			
 		}
 		
-		if(Inventory.getCount(377) + Inventory.getCount(379) == 24) {
+		if(Inventory.getCount(377) + Inventory.getCount(379) == 26) {
 			Walking.walk(new Tile(2922, 3169, 0));
 		}
 	} 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
