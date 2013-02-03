@@ -4,6 +4,7 @@ import org.powerbot.game.api.methods.Widgets;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.tab.Inventory;
+import org.powerbot.game.api.methods.widget.Camera;
 import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.node.SceneObject;
 import org.powerbot.game.api.wrappers.widget.WidgetChild;
@@ -11,26 +12,39 @@ import org.powerbot.game.api.wrappers.widget.WidgetChild;
 
 public class Cooking extends Node {
 
-	WidgetChild cookButton = Widgets.get(1370).getChild(38);
-	SceneObject tree = SceneEntities.getNearest(1276);
-	
-	
 	@Override
 	public boolean activate() {
-		return Inventory.getCount(377) + Inventory.getCount(381) + Inventory.getCount(379) == 26
-				&& Areas.TreeArea.contains(Players.getLocal().getLocation())
-				&& !Areas.FishingArea.contains(Players.getLocal().getLocation());
+		return Inventory.getCount() >= 27 
+				&& Areas.TreeArea.contains(Players.getLocal().getLocation());
 	}
 
 	@Override
 	public void execute() {
+		WidgetChild cookButton = Widgets.get(1370).getChild(38);
+		SceneObject tree = SceneEntities.getNearest(1276);
 		SceneObject bonFire = SceneEntities.getNearest(70755);
 		
-		if(tree != null && Inventory.getCount(1511) == 0 && bonFire == null && Inventory.getCount(377) > 0) {
-			tree.interact("Chop");
-	
-			sleep(300, 500);
-	
+		if(bonFire == null) {
+			if(Inventory.getCount(1511) == 0 && tree != null && tree.isOnScreen()) {
+				Variables.status = "Getting logs";
+				tree.interact("Chop");
+				
+				while(Variables.twentySeconds.isRunning()) {
+					if(Players.getLocal().getAnimation() == 879) {
+						break;
+					} else {
+						tree.interact("Chop");
+					}
+				}
+				
+				sleep(3000, 4000);
+				
+			} else if(Inventory.getCount(1511) == 1) {
+				Variables.status = "Making a bonfire";
+				Inventory.getItem(1511).getWidgetChild().interact("Light");
+				sleep(200, 300);
+			}
+
 			while(Variables.twentySeconds.isRunning()) {
 				if(Players.getLocal().getAnimation() == -1) {
 					break;
@@ -38,45 +52,30 @@ public class Cooking extends Node {
 			}
 		}
 		
-		if(Inventory.getCount(1511) == 1 && bonFire == null) {
-			Inventory.getItem(1511).getWidgetChild().interact("Light");
-			sleep(400, 500);
-		}
-		
-		sleep(200, 300);
-		if(bonFire != null) {
-			if(bonFire.isOnScreen() && Inventory.getCount(377) > 0 ) {
-				WidgetChild lobby = Inventory.getItem(377).getWidgetChild();
+		if(bonFire != null && bonFire.isOnScreen()) {
+			if(Inventory.getCount(377) > 0 
+					&& !Widgets.get(1251).getChild(17).isOnScreen()) {
+				Variables.status = "Cooking the Lobbies";
 				
-				lobby.interact("Use");
-				sleep(50, 150);
-				bonFire.click(true);
-				sleep(20, 50);
-
-			}
-			cookButton.click(true);
-			sleep(200, 400);
-			
-			while(Variables.sixtyfiveSeconds.isRunning()) {
-				if(Players.getLocal().getAnimation() == -1) {
-					break;
+				Camera.turnTo(bonFire);
+				Inventory.getItem(377).getWidgetChild().interact("Use");
+				sleep(100, 200);
+				bonFire.interact("Use");
+				sleep(150, 200);
+				
+				while(!cookButton.isOnScreen()){
+					sleep(10);
 				}
-			}
-			
-			
-			
-			
-		}
-		
-		while(Variables.sixtyfiveSeconds.isRunning()) {
-			if(Players.getLocal().isIdle()) {
-				break;
+				
+				cookButton.click(true);
+				sleep(5000, 6000);
+				
 			}
 		}
-		sleep(200, 300);
 		
 		if(Inventory.getCount(377) == 0) {
-			Walking.walk(new Tile(2928, 3151, 0));
+			Variables.status = "Leaving tree area";
+			Walking.findPath(new Tile(2928, 3152, 0)).traverse();
 		}
 	}
 }

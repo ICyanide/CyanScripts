@@ -6,6 +6,8 @@ public class Variables {
 	
 	static Timer twentySeconds = new Timer(2000);
 	static Timer sixtyfiveSeconds = new Timer(6500);
+	static Timer timer = new Timer(0);
+	public static String status = "Loading script";
 	
 	
 	static Filter<NPC> fishingSpot = new Filter<NPC>(){

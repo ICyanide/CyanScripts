@@ -12,14 +12,14 @@ public class Paths {
 	
 	
 	public static final Tile[] NoteGuyToFish = {
-		new Tile(2855, 3146, 0), new Tile(2860, 3148, 0),
-		new Tile(2864, 3151, 0), new Tile(2869, 3153, 0),
-		new Tile(2874, 3155, 0), new Tile(2878, 3158, 0),
-		new Tile(2883, 3160, 0), new Tile(2887, 3163, 0),
-		new Tile(2892, 3164, 0), new Tile(2897, 3166, 0),
-		new Tile(2901, 3169, 0), new Tile(2906, 3171, 0),
-		new Tile(2911, 3172, 0), new Tile(2916, 3172, 0),
-		new Tile(2921, 3174, 0) 
+		new Tile(2868, 3145, 0), new Tile(2873, 3144, 0),
+		new Tile(2878, 3144, 0), new Tile(2883, 3144, 0),
+		new Tile(2888, 3145, 0), new Tile(2893, 3147, 0),
+		new Tile(2896, 3151, 0), new Tile(2898, 3156, 0),
+		new Tile(2901, 3160, 0), new Tile(2903, 3165, 0),
+		new Tile(2906, 3169, 0), new Tile(2910, 3172, 0),
+		new Tile(2915, 3172, 0), new Tile(2920, 3173, 0),
+		new Tile(2924, 3176, 0) 
 };
 	
 	public static final Tile[] BackToFish = {
