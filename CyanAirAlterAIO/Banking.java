@@ -1,6 +1,7 @@
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.Walking;
 import org.powerbot.game.api.methods.interactive.Players;
+import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.Bank;
 import org.powerbot.game.api.wrappers.Tile;
@@ -22,13 +23,12 @@ public class Banking extends Node {
 			Walking.findPath(new Tile(3175, 3428, 0)).traverse();
 		} else if(!Bank.isOpen()) {
 			Variables.status = "Opening Bank...";
-			Variables.BANKBOOTH.interact("Bank");
+			sleep(100, 150);
+			SceneEntities.getNearest(782).interact("Bank");
 			
-			while(Variables.twoMinutes.isRunning()) {
-				if(Bank.isOpen()) {
-					break;
-				}
-			}
+			Variables.SleepName = "OpenBank";
+			sleep(10, 20);
+			Variables.DyanmicSleep();
 		}
 		
 		if(Bank.isOpen()) {
